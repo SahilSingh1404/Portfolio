@@ -14,6 +14,7 @@ import { ThemeContext } from '../../contexts/ThemeContext';
 import { socialsData } from '../../data/socialsData';
 import { contactsData } from '../../data/contactsData';
 import './Contacts.css';
+import { useNavigate } from 'react-router-dom';
 
 function Contacts() {
     const [open, setOpen] = useState(false);
@@ -23,6 +24,7 @@ function Contacts() {
     const [success, setSuccess] = useState(false);
     const [errMsg, setErrMsg] = useState('');
     const { theme } = useContext(ThemeContext);
+    const navigate = useNavigate();
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
             return;
@@ -115,7 +117,7 @@ function Contacts() {
 
     const handleContactForm = (e) => {
         e.preventDefault();
-
+    
         if (name && email && message) {
             if (isEmail(email)) {
                 const responseData = {
@@ -123,17 +125,18 @@ function Contacts() {
                     email: email,
                     message: message,
                 };
-
-                axios.post(contactsData.sheetAPI, responseData).then((res) => {
-                    console.log('success');
-                    setSuccess(true);
-                    setErrMsg('');
-
-                    setName('');
-                    setEmail('');
-                    setMessage('');
-                    setOpen(false);
-                });
+    
+                // Simulating successful submission and redirection
+                setSuccess(true);
+                setErrMsg('');
+    
+                setName('');
+                setEmail('');
+                setMessage('');
+                setOpen(false);
+    
+                // Redirect to the same page without reloading
+                navigate(0); // React Router's navigate to the same page
             } else {
                 setErrMsg('Invalid email');
                 setOpen(true);
@@ -142,7 +145,7 @@ function Contacts() {
             setErrMsg('Enter all the fields');
             setOpen(true);
         }
-    };
+    };    
 
     return (
         <div
